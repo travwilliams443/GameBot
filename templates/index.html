@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Terminal Chatbot</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #0f0;
+            overflow: hidden;
+        }
+        #terminal {
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        #output {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #0f0;
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        #input-line {
+            display: flex;
+            align-items: center;
+        }
+        #prompt {
+            margin-right: 10px;
+        }
+        #user-input {
+            flex-grow: 1;
+            background-color: transparent;
+            border: none;
+            color: #0f0;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+        }
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+        }
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        <div id="output"></div>
+        <div id="input-line">
+            <span id="prompt">> </span>
+            <input type="text" id="user-input" autofocus>
+            <span class="blink">_</span>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#user-input').keypress(function(e) {
+                if(e.which == 13) { // Enter key
+                    sendMessage();
+                }
+            });
+        });
+
+        function sendMessage() {
+            var userInput = $('#user-input').val();
+            if (userInput.trim() === '') return;
+
+            addToOutput('User: ' + userInput);
+            $('#user-input').val('');
+
+            $.ajax({
+                url: '/chat',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({message: userInput}),
+                success: function(response) {
+                    addToOutput('AI: ' + response.response);
+                },
+                error: function() {
+                    addToOutput('AI: Error communicating with the server.');
+                }
+            });
+        }
+
+        function addToOutput(message) {
+            $('#output').append('<p>' + message + '</p>');
+            $('#output').scrollTop($('#output')[0].scrollHeight);
+        }
+    </script>
+</body>
+</html>
