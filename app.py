@@ -34,7 +34,7 @@ def query_database(query: str, k: int = 1):
     return matching_docs if matching_docs else []
 
 def mission_qa(user_question):
-    relevant_docs = query_database(user_question, k=2)
+    relevant_docs = query_database(user_question, k=3)
     context = "\n".join([doc.page_content for doc in relevant_docs])
     prompt = create_prompt(context, user_question)
     print("Prompt: ", prompt)
