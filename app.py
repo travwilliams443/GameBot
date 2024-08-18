@@ -5,6 +5,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from openai import OpenAI
 import os
+import re
 
 app = Flask(__name__)
 
@@ -24,7 +25,8 @@ def chat_with_gpt(prompt):
             {"role": "user", "content": prompt}
         ]
     )
-    return response.choices[0].message.content
+    response_str = response.choices[0].message.content
+    return response_str 
 
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 vector_db = Chroma(persist_directory="./vectorstore", embedding_function=embeddings)
@@ -39,7 +41,6 @@ def mission_qa(user_question):
     prompt = create_prompt(context, user_question)
     print("Prompt: ", prompt)
     response = chat_with_gpt(prompt)
-    #response = prompt
     return response
 
 @app.route('/')
