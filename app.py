@@ -20,7 +20,7 @@ def chat_with_gpt(prompt):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are an assistant helping with questions about a specific mission. Use the provided context to answer accurately."},
+            {"role": "system", "content": "You are an assistant helping with questions about a specific mission. Use the provided context to answer accurately. Your tone should be somewhat robotic, stilted, and serious. Act like this is serious business and not an actual game. Keep the answers brief, since this is a mission-critical situation where time is of the essence."},
             {"role": "user", "content": prompt}
         ]
     )
@@ -34,7 +34,7 @@ def query_database(query: str, k: int = 1):
     return matching_docs if matching_docs else []
 
 def mission_qa(user_question):
-    relevant_docs = query_database(user_question, k=2)
+    relevant_docs = query_database(user_question, k=3)
     context = "\n".join([doc.page_content for doc in relevant_docs])
     prompt = create_prompt(context, user_question)
     print("Prompt: ", prompt)

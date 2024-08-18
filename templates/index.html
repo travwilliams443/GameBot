@@ -3,71 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic Terminal Chatbot</title>
+    <title>Deus Ex Infolink</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Courier New', monospace;
+            font-family: Courier;
             background-color: #000;
-            color: #0f0;
-            overflow: hidden;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        #terminal {
-            height: 100%;
-            padding: 20px;
-            box-sizing: border-box;
+        #infolink-panel {
+            width: 80%;
+            max-width: 800px;
+            min-height: 150px;
+            min-width: 350px;
+            background-color: rgba(80, 80, 80, 0.7);
+            border: 1px solid #808080;
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
         }
+        #infolink-header {
+            background-color: #808080;
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #000000;
+        }
         #output {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin-bottom: 20px;
             padding: 10px;
-            border: 1px solid #0f0;
-            background-color: rgba(0, 255, 0, 0.1);
+            font-size: 16px;
+            line-height: 1.4;
+            min-height: 60px;
+            max-height: 70vh;
+            overflow-y: auto;
         }
         #input-line {
             display: flex;
             align-items: center;
+            padding: 10px;
+            border-top: 1px solid #808080;
+            height: 40px;
         }
         #prompt {
             margin-right: 10px;
+            color: #fff;
         }
         #user-input {
             flex-grow: 1;
-            background-color: transparent;
-            border: none;
-            color: #0f0;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #808080;
+            color: #fff;
             font-family: inherit;
             font-size: inherit;
+            padding: 5px;
             outline: none;
-        }
-        .blink {
-            animation: blink-animation 1s steps(5, start) infinite;
-        }
-        @keyframes blink-animation {
-            to {
-                visibility: hidden;
-            }
+            height: 30px;
         }
     </style>
 </head>
 <body>
-    <div id="terminal">
+    <div id="infolink-panel">
+        <div id="infolink-header">INFOLINK</div>
         <div id="output"></div>
         <div id="input-line">
             <span id="prompt">> </span>
             <input type="text" id="user-input" autofocus>
-            <span class="blink">_</span>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            addToOutput('AI: Hello, agent. I\'m here to assist with your current objective.');
+
             $('#user-input').keypress(function(e) {
                 if(e.which == 13) { // Enter key
                     sendMessage();
