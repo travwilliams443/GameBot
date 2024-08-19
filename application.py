@@ -43,15 +43,15 @@ def mission_qa(user_question):
     response = chat_with_gpt(prompt)
     return response
 
-@app.route('/')
+@application.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/chat', methods=['POST'])
+@application.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json['message']
     response = mission_qa(user_message)
     return jsonify({'response': response})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
