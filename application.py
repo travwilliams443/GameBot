@@ -7,7 +7,7 @@ from openai import OpenAI
 import os
 import re
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 # Initialize OpenAI client
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -21,7 +21,7 @@ def chat_with_gpt(prompt):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are an assistant helping with questions about a specific mission. Use the provided context to answer accurately. Your tone should be somewhat robotic, stilted, and serious. Act like this is serious business and not an actual game. Keep the answers brief, since this is a mission-critical situation where time is of the essence."},
+            {"role": "system", "content": "You are an assistant helping with questions about a specific mission. Use the provided context to answer accurately. Your tone should be somewhat robotic, stilted, and serious. Act like this is serious business and not an actual game. Provide as much detail as required to help the player, but do not describe more than the next few steps in the mission. Responses should be less than 150 words. This is a mission-critical situation where time is of the essence."},
             {"role": "user", "content": prompt}
         ]
     )
@@ -43,15 +43,15 @@ def mission_qa(user_question):
     response = chat_with_gpt(prompt)
     return response
 
-@app.route('/')
+@application.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/chat', methods=['POST'])
+@application.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json['message']
     response = mission_qa(user_message)
     return jsonify({'response': response})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)

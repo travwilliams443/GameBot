@@ -162,3 +162,8 @@ cython_debug/
 #.idea/
 vectorstore/7bbdf70a-2722-4816-87ae-bab18a5bc175/length.bin
 vectorstore/7bbdf70a-2722-4816-87ae-bab18a5bc175/length.bin
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
