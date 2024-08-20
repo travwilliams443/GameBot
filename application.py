@@ -21,7 +21,7 @@ def chat_with_gpt(prompt):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are an assistant helping with questions about a specific mission. Use the provided context to answer accurately. Your tone should be somewhat robotic, stilted, and serious. Act like this is serious business and not an actual game. Keep the answers brief, since this is a mission-critical situation where time is of the essence."},
+            {"role": "system", "content": "You are an assistant helping with questions about a specific mission. Use the provided context to answer accurately. Your tone should be somewhat robotic, stilted, and serious. Act like this is serious business and not an actual game. Provide as much detail as required to help the player, but do not describe more than the next few steps in the mission. Responses should be less than 150 words. This is a mission-critical situation where time is of the essence."},
             {"role": "user", "content": prompt}
         ]
     )
